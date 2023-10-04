@@ -4,6 +4,15 @@ import autoload from '@fastify/autoload'
 import { join } from 'path'
 import swagger from '@fastify/swagger'
 import swaggerUI from '@fastify/swagger-ui'
+import { Compass } from './core/generateSVG'
+import decorateCore from './core'
+
+declare module "fastify" {
+  export interface FastifyInstance {
+    generateSVG: (compass: Compass) => string,
+    generatePNG: (compass: Compass) => Promise<Buffer>,
+  }
+}
 
 export default function createApp(
   opts?: FastifyServerOptions,
@@ -17,8 +26,8 @@ export default function createApp(
   app.register(swagger, {
     swagger: {
       info: {
-        title: 'Fastify Serverless Starter',
-        description: 'Fastify Serverless Starter',
+        title: 'Remote Compass',
+        description: 'Remote Compass API',
         version: '0.1.0',
       },
       // securityDefinitions: {
@@ -33,9 +42,8 @@ export default function createApp(
 
   app.register(swaggerUI)
 
-  // app.register(autoload, {
-  //   dir: join(__dirname, 'core'),
-  // })
+  decorateCore(app)
+
   //
   // app.register(autoload, {
   //   dir: join(__dirname, 'features'),
