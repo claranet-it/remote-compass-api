@@ -1,11 +1,14 @@
-import { vanillaCompass } from '@src/core/generateSVG'
+import { Compass } from '@src/core/generateSVG'
 import { FastifyInstance } from 'fastify'
 
 export default async function (app: FastifyInstance): Promise<void> {
-  app.get<{ Reply: string }>(
+  app.get<{
+    Querystring: Compass;
+    Reply: string
+  }>(
     '/svg',
-    async (_, reply) => {
-      reply.type('image/svg+xml').send(app.generateSVG(vanillaCompass))
+    async (request, reply) => {
+      reply.type('image/svg+xml').send(app.generateSVG(request.query))
     },
   )
 }
