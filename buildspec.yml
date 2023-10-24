@@ -1,10 +1,15 @@
 version: 0.2
+package:
+  patterns:
+    - 'fonts/**'
+environment:
+    FONTCONFIG_PATH: /var/task/fonts
 phases:
   install:
     runtime-versions:
       nodejs: 18.x
     commands:
-      - SHARP_IGNORE_GLOBAL_LIBVIPS=1 npm install --ignore-scripts=false --platform=linux --arch=x64
+      - npm install --ignore-scripts=false --platform=linux --arch=x64
   pre_build:
     commands:
       - echo "Running linter..."
