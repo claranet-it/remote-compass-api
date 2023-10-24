@@ -4,7 +4,7 @@ phases:
     runtime-versions:
       nodejs: 18.x
     commands:
-      - npm ci --platform=linux --arch=x64 --ignore-scripts  
+      - npm install --ignore-scripts=false --platform=linux --arch=x64
   pre_build:
     commands:
       - echo "Running linter..."
